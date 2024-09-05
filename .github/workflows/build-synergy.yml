@@ -22,6 +22,7 @@ jobs:
         python-version: '3.x'
 
     - name: Install dependencies
+      shell: bash
       run: |
         if [[ "${{ matrix.os }}" == 'windows-latest' ]]; then
           python scripts/install_deps.py
@@ -30,6 +31,7 @@ jobs:
         fi
 
     - name: Configure build
+      shell: bash
       run: |
         if [[ "${{ matrix.os }}" == 'ubuntu-latest' ]]; then
           cmake -B build --preset=linux-release
