@@ -27,10 +27,10 @@ jobs:
         vs-version: "latest"
         msbuild-architecture: x64
         
-    # - name: Verify MSBuild Installation
-    #   if: ${{ matrix.os == 'windows-latest' }}
-    #   run: |
-    #     "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current\Bin\MSBuild.exe" -version
+    - name: Verify MSBuild Installation
+      if: ${{ matrix.os == 'windows-latest' }}
+      run: |
+        "C:\Program Files\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
         
     - name: Install dependencies
       shell: bash
@@ -53,7 +53,7 @@ jobs:
         elif [[ "${{ matrix.os }}" == 'macos-latest' ]]; then
           cmake -B build --preset=macos-release
         elif [[ "${{ matrix.os }}" == 'windows-latest' ]]; then
-          'C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build\vcvars64.bat'
+          'C:\Program Files\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat'
           cmake -B build --preset=windows-release
         fi
           
