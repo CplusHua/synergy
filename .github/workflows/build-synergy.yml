@@ -43,18 +43,18 @@ jobs:
     #   with:
     #     arch: ${{ matrix.arch }}
       
-    - name: Install dependencies
-      shell: bash
-      run: |
-        if [[ "${{ matrix.os }}" == 'windows-latest' ]]; then
-          choco install ninja
-        fi
+    # - name: Install dependencies
+    #   shell: bash
+    #   run: |
+    #     if [[ "${{ matrix.os }}" == 'windows-latest' ]]; then
+    #       choco install ninja
+    #     fi
         
-        if [[ "${{ matrix.os }}" == 'windows-latest' ]]; then
-          python scripts/install_deps.py
-        else
-          ./scripts/install_deps.py
-        fi
+    #     if [[ "${{ matrix.os }}" == 'windows-latest' ]]; then
+    #       python scripts/install_deps.py
+    #     else
+    #       ./scripts/install_deps.py
+    #     fi
 
     - name: Configure build
       shell: bash
@@ -64,7 +64,8 @@ jobs:
         elif [[ "${{ matrix.os }}" == 'macos-latest' ]]; then
           cmake -B build --preset=macos-release
         elif [[ "${{ matrix.os }}" == 'windows-latest' ]]; then
-          "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat"
+          # "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat"
+          "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\Tools\VsDevCmd.bat" 
           cmake -B build --preset=windows-release
         fi
           
