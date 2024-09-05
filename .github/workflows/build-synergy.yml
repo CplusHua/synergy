@@ -27,6 +27,7 @@ jobs:
       run: |
         if [[ "${{ matrix.os }}" == 'windows-latest' ]]; then
           choco install ninja
+          choco install visualstudio2019buildtools
         fi
         
         if [[ "${{ matrix.os }}" == 'windows-latest' ]]; then
@@ -43,22 +44,21 @@ jobs:
         elif [[ "${{ matrix.os }}" == 'macos-latest' ]]; then
           cmake -B build --preset=macos-release
         else
-          cmake -B build --preset=windows-release
+          cmake -B build --preset=windows-release -G "Visual Studio 16 2019"
         fi
           
     - name: Build Synergy
       run: cmake --build build -j8
       
     - name: List build directory
-      run: ls -la build/
+      run: ls -la build/ ; find ./build/
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
         name: synergy-build
         path: |
-          build/**/*.exe
-          build/**/*.dmg
+          build/bin/
         if-no-files-found: warn
 
 
