@@ -15,23 +15,36 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
+    - name: Set up build environment
+      run: |
+        echo "VERSION_TAG=${GITHUB_SHA}" >> $GITHUB_ENV
+        echo "BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> $GITHUB_ENV
+        echo "CURRENT_DATE=$(date -u +"%Y-%m-%d")" >> $GITHUB_ENV
+          
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.x'
 
-    - name: Setup Visual Studio
-      if: ${{ matrix.os == 'windows-latest' }}
-      uses: microsoft/setup-msbuild@v1.1
+    # - name: Setup Visual Studio
+    #   if: ${{ matrix.os == 'windows-latest' }}
+    #   uses: microsoft/setup-msbuild@v1.1
+    #   with:
+    #     vs-version: "latest"
+    #     msbuild-architecture: x64
+
+    # - name: Verify MSBuild Installation
+    #   if: ${{ matrix.os == 'windows-latest' }}
+    #   run: |
+    #     "C:\Program Files\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
+    
+    - uses: ilammy/msvc-dev-cmd@v1
       with:
-        vs-version: "latest"
-        msbuild-architecture: x64
+        arch: ${{ matrix.arch }}
         
-    - name: Verify MSBuild Installation
-      if: ${{ matrix.os == 'windows-latest' }}
-      run: |
-        "C:\Program Files\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
-        
+    - name: List build directory
+      run: dir C:\Program Files\Microsoft Visual Studio\2022\Enterprise
+      
     - name: Install dependencies
       shell: bash
       run: |
@@ -53,7 +66,6 @@ jobs:
         elif [[ "${{ matrix.os }}" == 'macos-latest' ]]; then
           cmake -B build --preset=macos-release
         elif [[ "${{ matrix.os }}" == 'windows-latest' ]]; then
-          'C:\Program Files\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat'
           cmake -B build --preset=windows-release
         fi
           
@@ -66,7 +78,7 @@ jobs:
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: synergy-build
+        name: synergy-build-${{ matrix.os }}-${{ env.VERSION_TAG }}-${{ env.CURRENT_DATE }}
         path: |
           build/bin/
         if-no-files-found: warn
