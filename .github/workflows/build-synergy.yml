@@ -60,7 +60,7 @@ jobs:
           cmake -B build --preset=macos-release
         elif [[ "${{ matrix.os }}" == 'windows-latest' ]]; then
           # "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat"
-          "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\Tools\VsDevCmd.bat" 
+          "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/VsDevCmd.bat"
           cmake -B build --preset=windows-release
         fi
         
