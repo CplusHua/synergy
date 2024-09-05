@@ -42,9 +42,6 @@ jobs:
     - uses: ilammy/msvc-dev-cmd@v1
       with:
         arch: ${{ matrix.arch }}
-        
-    - name: List build directory
-      run: dir C:\Program Files\Microsoft Visual Studio\2022\Enterprise
       
     - name: Install dependencies
       shell: bash
