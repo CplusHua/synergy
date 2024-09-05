@@ -1,0 +1,58 @@
+name: Build Synergy
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build and Test Synergy
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        if [[ "${{ matrix.os }}" == 'windows-latest' ]]; then
+          python scripts/install_deps.py
+        else
+          ./scripts/install_deps.py
+        fi
+
+    - name: Configure build
+      run: |
+        if [[ "${{ matrix.os }}" == 'ubuntu-latest' ]]; then
+          cmake -B build --preset=linux-release
+        elif [[ "${{ matrix.os }}" == 'macos-latest' ]]; then
+          cmake -B build --preset=macos-release
+        else
+          cmake -B build --preset=windows-release
+          
+    - name: Build Synergy
+      run: cmake --build build -j8
+
+    - name: Run Unit Tests
+      run: |
+        if [[ "${{ matrix.os }}" == 'windows-latest' ]]; then
+          ./build/bin/unittests.exe
+        else
+          ./build/bin/unittests
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: synergy-build
+        path: build/
