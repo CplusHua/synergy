@@ -27,10 +27,10 @@ jobs:
         vs-version: "latest"
         msbuild-architecture: x64
         
-    - name: Verify MSBuild Installation
-      if: ${{ matrix.os == 'windows-latest' }}
-      run: |
-        "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current\Bin\MSBuild.exe" -version
+    # - name: Verify MSBuild Installation
+    #   if: ${{ matrix.os == 'windows-latest' }}
+    #   run: |
+    #     "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current\Bin\MSBuild.exe" -version
         
     - name: Install dependencies
       shell: bash
