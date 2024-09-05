@@ -14,18 +14,8 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
-
-    - name: Set up build environment
-      shell: bash
-      run: |
-        echo "VERSION_TAG=${GITHUB_SHA}" >> $GITHUB_ENV
-        echo "BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> $GITHUB_ENV
-        echo "CURRENT_DATE=$(date -u +"%Y-%m-%d")" >> $GITHUB_ENV
           
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.x'
+
 
     - name: Setup Visual Studio
       if: ${{ matrix.os == 'windows-latest' }}
@@ -34,6 +24,11 @@ jobs:
         vs-version: "latest"
         msbuild-architecture: ${{ matrix.arch }}
 
+    # - name: Set up Python
+    #   uses: actions/setup-python@v4
+    #   with:
+    #     python-version: '3.x'
+        
     # - name: Verify MSBuild Installation
     #   if: ${{ matrix.os == 'windows-latest' }}
     #   run: |
@@ -68,7 +63,14 @@ jobs:
           "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\Tools\VsDevCmd.bat" 
           cmake -B build --preset=windows-release
         fi
-          
+        
+    - name: Set up build environment
+      shell: bash
+      run: |
+        echo "VERSION_TAG=${GITHUB_SHA}" >> $GITHUB_ENV
+        echo "BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> $GITHUB_ENV
+        echo "CURRENT_DATE=$(date -u +"%Y-%m-%d")" >> $GITHUB_ENV
+        
     - name: Build Synergy
       run: cmake --build build -j8
       
