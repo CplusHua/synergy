@@ -44,7 +44,7 @@ jobs:
         elif [[ "${{ matrix.os }}" == 'macos-latest' ]]; then
           cmake -B build --preset=macos-release
         else
-          cmake -B build --preset=windows-release -G "Visual Studio 16 2019"
+          cmake -B build --preset=windows-release
         fi
           
     - name: Build Synergy
