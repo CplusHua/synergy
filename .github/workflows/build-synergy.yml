@@ -25,6 +25,12 @@ jobs:
       uses: microsoft/setup-msbuild@v1.1
       with:
         vs-version: 2019
+        msbuild-architecture: x64
+        
+    - name: Verify MSBuild Installation
+      if: ${{ matrix.os == 'windows-latest' }}
+      run: |
+        "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current\Bin\MSBuild.exe" -version
         
     - name: Install dependencies
       shell: bash
@@ -46,8 +52,8 @@ jobs:
           cmake -B build --preset=linux-release
         elif [[ "${{ matrix.os }}" == 'macos-latest' ]]; then
           cmake -B build --preset=macos-release
-        else
-          cmake -B build --preset=windows-release
+        elif [[ "${{ matrix.os }}" == 'windows-latest' ]]; then
+          cmake -B build --preset=windows-release -G "Visual Studio 16 2019"
         fi
           
     - name: Build Synergy
