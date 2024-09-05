@@ -21,9 +21,16 @@ jobs:
       with:
         python-version: '3.x'
 
+
     - name: Install dependencies
       shell: bash
       run: |
+        if [[ "${{ matrix.os }}" == 'windows-latest' ]]; then
+          choco install ninja
+        else
+          sudo apt-get install ninja-build
+        fi
+        
         if [[ "${{ matrix.os }}" == 'windows-latest' ]]; then
           python scripts/install_deps.py
         else
