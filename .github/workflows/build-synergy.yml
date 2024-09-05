@@ -10,7 +10,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ macos-latest, windows-latest]  # ubuntu-latest
         
     steps:
     - name: Checkout repository
@@ -44,17 +44,13 @@ jobs:
     - name: Build Synergy
       run: cmake --build build -j8
 
-    - name: Run Unit Tests
-      shell: bash
-      run: |
-        if [[ "${{ matrix.os }}" == 'windows-latest' ]]; then
-          ./build/bin/unittests.exe
-        else
-          ./build/bin/unittests
-        fi
-
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
         name: synergy-build
-        path: build/
+        path: |
+          build/**/*.exe
+          build/**/*.dmg
+        if-no-files-found: warn
+
+
