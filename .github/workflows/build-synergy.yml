@@ -1,12 +1,8 @@
 name: Build Synergy
 
+# 使用 workflow_dispatch 来允许手动触发
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   build:
@@ -51,6 +47,7 @@ jobs:
           ./build/bin/unittests.exe
         else
           ./build/bin/unittests
+
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
