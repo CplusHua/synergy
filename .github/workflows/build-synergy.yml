@@ -4,16 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-pre:
-    name: Install VS
-    runs-on: ${{ matrix.os }}
-    if: ${{ runner.os }} == 'Windows'
-    steps:
-      - name: Setup Visual Studio
-        uses: microsoft/setup-msbuild@v1.1
-        with:
-          vs-version: 2019
-  build-common:
+  build:
     name: Build and Test Synergy
     runs-on: ${{ matrix.os }}
     strategy:
@@ -29,7 +20,12 @@ jobs:
       with:
         python-version: '3.x'
 
-
+    - name: Setup Visual Studio
+      if: ${{ matrix.os == 'windows-latest' }}
+      uses: microsoft/setup-msbuild@v1.1
+      with:
+        vs-version: 2019
+        
     - name: Install dependencies
       shell: bash
       run: |
