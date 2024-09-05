@@ -39,16 +39,19 @@ jobs:
           cmake -B build --preset=macos-release
         else
           cmake -B build --preset=windows-release
+        fi
           
     - name: Build Synergy
       run: cmake --build build -j8
 
     - name: Run Unit Tests
+      shell: bash
       run: |
         if [[ "${{ matrix.os }}" == 'windows-latest' ]]; then
           ./build/bin/unittests.exe
         else
           ./build/bin/unittests
+        fi
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
