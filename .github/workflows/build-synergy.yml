@@ -37,7 +37,7 @@ jobs:
     # - name: Verify MSBuild Installation
     #   if: ${{ matrix.os == 'windows-latest' }}
     #   run: |
-    #     "C:\Program Files\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
+    #     "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat"
     
     - uses: ilammy/msvc-dev-cmd@v1
       with:
@@ -64,6 +64,7 @@ jobs:
         elif [[ "${{ matrix.os }}" == 'macos-latest' ]]; then
           cmake -B build --preset=macos-release
         elif [[ "${{ matrix.os }}" == 'windows-latest' ]]; then
+          "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat"
           cmake -B build --preset=windows-release
         fi
           
