@@ -7,7 +7,7 @@ jobs:
   build-pre:
     name: Install VS
     runs-on: ${{ matrix.os }}
-    if: ${{ matrix.os == 'windows-latest' }}
+    if: ${{ runner.os }} == 'Windows'
     steps:
       - name: Setup Visual Studio
         uses: microsoft/setup-msbuild@v1.1
