@@ -27,21 +27,21 @@ jobs:
       with:
         python-version: '3.x'
 
-    # - name: Setup Visual Studio
-    #   if: ${{ matrix.os == 'windows-latest' }}
-    #   uses: microsoft/setup-msbuild@v1.1
-    #   with:
-    #     vs-version: "latest"
-    #     msbuild-architecture: x64
+    - name: Setup Visual Studio
+      if: ${{ matrix.os == 'windows-latest' }}
+      uses: microsoft/setup-msbuild@v2
+      with:
+        vs-version: "latest"
+        msbuild-architecture: ${{ matrix.arch }}
 
     # - name: Verify MSBuild Installation
     #   if: ${{ matrix.os == 'windows-latest' }}
     #   run: |
     #     "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat"
     
-    - uses: ilammy/msvc-dev-cmd@v1
-      with:
-        arch: ${{ matrix.arch }}
+    # - uses: ilammy/msvc-dev-cmd@v1
+    #   with:
+    #     arch: ${{ matrix.arch }}
       
     - name: Install dependencies
       shell: bash
