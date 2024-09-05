@@ -27,8 +27,6 @@ jobs:
       run: |
         if [[ "${{ matrix.os }}" == 'windows-latest' ]]; then
           choco install ninja
-        else
-          sudo apt-get install ninja-build
         fi
         
         if [[ "${{ matrix.os }}" == 'windows-latest' ]]; then
